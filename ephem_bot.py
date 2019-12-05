@@ -11,15 +11,14 @@ logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
 import ephem
 
 from datetime import datetime
-dt_now = datetime.now()
+dt_now = datetime.today()
 
 def main():
     mybot = Updater("998165570:AAHwOKmYmf-86VvkMr-MQL4PfHl29N0RP80", request_kwargs=PROXY)
     dp = mybot.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
-    dp.add_handler(CommandHandler('planet', planet_text))
-     
+    dp.add_handler(CommandHandler('planet', planet_text)) 
     mybot.start_polling()
     mybot.idle()
 
@@ -30,10 +29,9 @@ def greet_user(bot, update):
     update.message.reply_text(text)
 
 def planet_text(bot, update):
-    user_planet = update.message.text.split()
-    planet = getattr(ephem, user_planet(dt_now))
+    user_planet = update.message.text.split()[1]
+    planet = getattr(ephem, user_planet)(dt_now)
     constellation = ephem.constellation(planet)
-    print(constellation)
     update.message.reply_text(constellation)
 
 def talk_to_me(bot, update):
