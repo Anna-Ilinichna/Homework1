@@ -28,15 +28,21 @@ def greet_user(bot, update):
     print(text)
     update.message.reply_text(text)
 
+planet_list= ['Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto','Sun','Moon']
+
 def planet_text(bot, update):
     user_planet = update.message.text.split()[1]
-    planet = getattr(ephem, user_planet)(dt_now)
-    constellation = ephem.constellation(planet)
-    update.message.reply_text(constellation)
+
+    if user_planet in planet_list:
+        planet = getattr(ephem, user_planet)(dt_now)
+        constellation = ephem.constellation(planet)
+        update.message.reply_text(constellation)
+    else: 
+        return update.message.reply_text(f'Планеты {user_planet} нет в списке') 
 
 def talk_to_me(bot, update):
     user_text = update.message.text
-    print(user_text)
+    print(user_text)    
     update.message.reply_text(user_text)
        
-main()  
+main()   
